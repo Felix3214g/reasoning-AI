@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NeoCortex API Tester</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; }
+        textarea { width: 100%; height: 100px; }
+        .response { margin-top: 20px; white-space: pre-wrap; background: #f5f5f5; padding: 15px; border-radius: 5px; }
+        button { padding: 8px 16px; background: #4CAF50; color: white; border: none; cursor: pointer; }
+        .endpoints { display: flex; gap: 10px; margin-bottom: 15px; }
+        .endpoint-btn { background: #2196F3; }
+    </style>
+</head>
+<body>
+    <h1>NeoCortex API Tester</h1>
+    
+    <div class="endpoints">
+        <button class="endpoint-btn" onclick="setEndpoint('/api/solve')">Solve (POST)</button>
+        <button class="endpoint-btn" onclick="setEndpoint('/api/fast-response')">Fast Response (POST)</button>
+        <button class="endpoint-btn" onclick="getAgentStatus()">Agent Status (GET)</button>
+    </div>
+    
+    <div class="form-group">
+        <label for="api_key">API Key:</label>
+        <input type="text" id="api_key" value="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" style="width: 100%;">
+    </div>
+    
+    <div class="form-group">
+        <label for="endpoint">Endpoint:</label>
+        <input type="text" id="endpoint" value="/api/solve" style="width: 100%;">
+    </div>
+    
+    <div class="form-group">
+        <label for="query">Query:</label>
+        <textarea id="query">Explain how neural networks work</textarea>
+    </div>
+    
+    <div class="form-group">
+        <label>
+            <input type="checkbox" id="show_work" checked> 
+            Show Work
+        </label>
+    </div>
+    
+    <div class="form-group">
+        <label>
+            <input type="checkbox" id="use_agents" checked> 
+            Use Agents
+        </label>
+    </div>
+    
+    <button onclick="sendRequest()">Send Request</button>
+    
+    <div class="response" id="response">
+        Response will appear here...
+    </div>
+    
+    <script>
+        function setEndpoint(endpoint) {
+            document.getElementById('endpoint').value = endpoint;
+        }
+        
+        function getAgentStatus() {
+            document.getElementById('endpoint').value = '/api/agents/status';
+            const apiKey = document.getElementById('api_key').value;
+            
+            fetch('http://127.0.0.1:5000/api/agents/status?api_key=' + encodeURIComponent(apiKey))
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('HTTP error ' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    document.getElementById('response').textContent = JSON.stringify(data, null, 2);
+                })
+                .catch(error => {
+                    document.getElementById('response').textContent = 'Error: ' + error;
+                });
+        }
+        
+        function sendRequest() {
+            const endpoint = document.getElementById('endpoint').value;
+            const query = document.getElementById('query').value;
+            const showWork = document.getElementById('show_work').checked;
+            const useAgents = document.getElementById('use_agents').checked;
+            const apiKey = document.getElementById('api_key').value;
+            
+            const payload = {
+                query: query,
+                show_work: showWork,
+                use_agents: useAgents
+            };
+            
+            document.getElementById('response').textContent = 'Sending request...';
+            
+            fetch('http://127.0.0.1:5000' + endpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-API-Key': apiKey
+                },
+                body: JSON.stringify(payload),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('HTTP error ' + response.status);
+                }
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById('response').textContent = JSON.stringify(data, null, 2);
+            })
+            .catch(error => {
+                document.getElementById('response').textContent = 'Error: ' + error;
+            });
+        }
+    </script>
+</body>
+</html> 

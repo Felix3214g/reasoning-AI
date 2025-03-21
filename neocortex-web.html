@@ -1,0 +1,2188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeoCortex AI - Advanced Cognitive System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <style>
+        :root {
+            --primary-color: #3a7bd5;
+            --secondary-color: #00d2ff;
+            --dark-color: #1a1a2e;
+            --light-color: #f5f5f5;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --gradient: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f9fafb;
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .navbar {
+            background: var(--dark-color);
+            padding: 0.8rem 1rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.4rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .navbar-brand i {
+            margin-right: 8px;
+            color: var(--primary-color);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 1rem;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .main-content {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+        
+        .chat-container {
+            display: flex;
+            height: 70vh;
+        }
+        
+        .chat-sidebar {
+            width: 280px;
+            background: #f7f9fc;
+            border-right: 1px solid #e0e0e0;
+            padding: 1.2rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            box-shadow: inset -5px 0 15px -5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .chat-sidebar .settings-panel {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .chat-sidebar .settings-content {
+            flex-grow: 1;
+            overflow-y: auto;
+            max-height: none;
+            padding-top: 0.5rem;
+        }
+        
+        .chat-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .chat-header {
+            padding: 1rem;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fff;
+        }
+        
+        .chat-header h2 {
+            font-size: 1.2rem;
+            margin: 0;
+            font-weight: 500;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            background: #fff;
+        }
+        
+        .message {
+            display: flex;
+            margin-bottom: 1.5rem;
+        }
+        
+        .message.user-message {
+            flex-direction: row-reverse;
+        }
+        
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin: 0 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: white;
+            flex-shrink: 0;
+        }
+        
+        .user-avatar {
+            background: var(--primary-color);
+        }
+        
+        .ai-avatar {
+            background: var(--secondary-color);
+        }
+        
+        .message-content {
+            background: #f0f4f8;
+            padding: 1rem;
+            border-radius: 12px;
+            max-width: 80%;
+        }
+        
+        .user-message .message-content {
+            background: var(--gradient);
+            color: white;
+        }
+        
+        .ai-message .message-content {
+            background: #f0f4f8;
+            color: #333;
+        }
+        
+        .message-text {
+            margin: 0;
+            line-height: 1.5;
+        }
+        
+        .message-time {
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+            opacity: 0.7;
+            text-align: right;
+        }
+        
+        .chat-form {
+            padding: 1rem;
+            border-top: 1px solid #e0e0e0;
+            background: #fff;
+        }
+        
+        .chat-input-container {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            background-color: #f0f2f5;
+            border-radius: 24px;
+            padding: 0.5rem 0.75rem;
+            transition: all 0.2s ease;
+        }
+        
+        .chat-input-container:focus-within {
+            background-color: #f8f9fa;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .chat-input {
+            flex: 1;
+            padding: 0.75rem 0.75rem;
+            border: none;
+            border-radius: 20px;
+            outline: none;
+            resize: none;
+            min-height: 24px;
+            max-height: 150px;
+            font-family: 'Roboto', sans-serif;
+            background-color: transparent;
+            font-size: 0.95rem;
+        }
+        
+        .input-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .settings-btn {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            color: #666;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+        
+        .settings-btn:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+            color: #333;
+        }
+        
+        .send-btn {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: opacity 0.3s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .send-btn:hover {
+            opacity: 0.9;
+        }
+        
+        .send-btn i {
+            font-size: 1rem;
+        }
+        
+        /* Settings panel styling */
+        .floating-settings {
+            position: absolute;
+            bottom: 80px;
+            right: 20px;
+            width: 320px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            padding: 1.25rem;
+            z-index: 10;
+            opacity: 0;
+            transform: translateY(10px);
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+        
+        .floating-settings.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: all;
+        }
+        
+        .floating-settings-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .floating-settings-header h3 {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #333;
+            margin: 0;
+        }
+        
+        .close-settings {
+            background: transparent;
+            border: none;
+            color: #777;
+            cursor: pointer;
+            font-size: 1.1rem;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.2s ease;
+        }
+        
+        .close-settings:hover {
+            background: rgba(0, 0, 0, 0.05);
+            color: #333;
+        }
+        
+        .settings-group {
+            margin-bottom: 1.25rem;
+        }
+        
+        .settings-group:last-child {
+            margin-bottom: 0;
+        }
+        
+        .settings-group-title {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #666;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .setting-row:last-child {
+            border-bottom: none;
+        }
+        
+        .setting-label {
+            font-size: 0.95rem;
+            color: #333;
+            padding-right: 1rem;
+        }
+        
+        .setting-control {
+            min-width: 120px;
+        }
+        
+        .form-select {
+            padding: 0.4rem 0.75rem;
+            border-radius: 6px;
+            border: 1px solid #e0e0e0;
+            background-color: #f8f9fa;
+            font-size: 0.9rem;
+        }
+        
+        .form-switch .form-check-input {
+            width: 2.5em;
+            height: 1.25em;
+        }
+        
+        .form-check-input:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .ai-thinking {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .thinking-dots {
+            display: flex;
+            gap: 0.3rem;
+        }
+        
+        .thinking-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--secondary-color);
+            animation: thinking 1.4s infinite ease-in-out both;
+        }
+        
+        .thinking-dot:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+        
+        .thinking-dot:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+        
+        @keyframes thinking {
+            0%, 80%, 100% { 
+                transform: scale(0);
+            } 40% { 
+                transform: scale(1.0);
+            }
+        }
+        
+        .settings-panel {
+            margin-bottom: 1.5rem;
+        }
+        
+        .settings-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            margin-bottom: 0.75rem;
+            border-bottom: 2px solid rgba(58, 123, 213, 0.1);
+        }
+        
+        .settings-header span {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #444;
+            letter-spacing: 0.5px;
+            position: relative;
+            padding-left: 10px;
+        }
+        
+        .settings-header span:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 4px;
+            height: 16px;
+            width: 4px;
+            background: var(--gradient);
+            border-radius: 2px;
+        }
+        
+        .toggle-btn {
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            cursor: pointer;
+            font-size: 1rem;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+        
+        .toggle-btn:hover {
+            background-color: rgba(58, 123, 213, 0.1);
+        }
+        
+        .settings-content {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .setting-item {
+            margin-bottom: 1rem;
+        }
+        
+        .setting-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .history-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            overflow-y: auto;
+            flex-grow: 1;
+            min-height: 200px;
+        }
+        
+        .history-item {
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            background: white;
+            cursor: pointer;
+            transition: background 0.2s;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .history-item:hover {
+            background: #e8f0fe;
+        }
+        
+        .history-item.active {
+            background: #e1f5fe;
+            border-left: 3px solid var(--primary-color);
+        }
+        
+        .badge {
+            font-size: 0.7rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            margin-left: 0.5rem;
+        }
+        
+        .badge-agent {
+            background: var(--gradient);
+            color: white;
+        }
+        
+        .badge-fast {
+            background: var(--warning-color);
+            color: #333;
+        }
+        
+        .export-btn {
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        
+        .export-btn:hover {
+            text-decoration: underline;
+        }
+        
+        .markdown-content h1,
+        .markdown-content h2,
+        .markdown-content h3,
+        .markdown-content h4,
+        .markdown-content h5,
+        .markdown-content h6 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .markdown-content p {
+            margin-bottom: 1rem;
+        }
+        
+        .markdown-content pre {
+            background: #f0f2f5;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-bottom: 1rem;
+        }
+        
+        .markdown-content code {
+            font-family: 'Consolas', monospace;
+            font-size: 0.9rem;
+            color: #333;
+        }
+        
+        .markdown-content ul, 
+        .markdown-content ol {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+        }
+        
+        .markdown-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1rem;
+        }
+        
+        .markdown-content table th,
+        .markdown-content table td {
+            border: 1px solid #ddd;
+            padding: 0.5rem;
+        }
+        
+        .markdown-content table th {
+            background: #f5f5f5;
+        }
+        
+        .markdown-content blockquote {
+            border-left: 4px solid var(--primary-color);
+            padding-left: 1rem;
+            color: #666;
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+        
+        .loading-bar {
+            height: 4px;
+            width: 100%;
+            background: #f0f0f0;
+            position: relative;
+            overflow: hidden;
+            display: none;
+        }
+        
+        .loading-bar::after {
+            content: '';
+            display: block;
+            height: 100%;
+            width: 20%;
+            background: var(--gradient);
+            position: absolute;
+            animation: loading 1.5s infinite ease-in-out;
+        }
+        
+        @keyframes loading {
+            0% { left: -20%; }
+            100% { left: 100%; }
+        }
+        
+        @media (max-width: 992px) {
+            .chat-container {
+                flex-direction: column;
+                height: auto;
+            }
+            
+            .chat-sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #e0e0e0;
+                max-height: 200px;
+            }
+            
+            .chat-messages {
+                max-height: 60vh;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .chat-container {
+                height: 80vh;
+            }
+            
+            .message-content {
+                max-width: 90%;
+            }
+        }
+        
+        /* Reasoning panel styles */
+        .reasoning-panel {
+            border-top: 1px solid #e0e0e0;
+            background: #f8f9fa;
+            transition: all 0.3s ease;
+        }
+        
+        .thinking-header {
+            padding: 12px 16px;
+            background-color: #f9fafb;
+            font-weight: 500;
+            color: #333;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .thinking-header:hover {
+            background-color: #f0f2f5;
+        }
+        
+        .thinking-expand-icon {
+            transition: transform 0.3s ease;
+        }
+        
+        .thinking-expanded .thinking-expand-icon {
+            transform: rotate(90deg);
+        }
+        
+        .thinking-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .thinking-expanded .thinking-details {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        
+        .thinking-content {
+            padding: 16px;
+            color: #555;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            background-color: #f9fafb;
+        }
+        
+        .reasoning-section {
+            margin-bottom: 1.5rem;
+            padding: 0;
+            background: transparent;
+            box-shadow: none;
+        }
+        
+        .reasoning-section h6 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            display: none;
+        }
+        
+        .perspective, .evidence-item {
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            background: transparent;
+            border-radius: 0;
+        }
+        
+        .reasoning-panel h6 {
+            color: #444;
+            font-weight: 500;
+            margin-top: 1rem;
+            padding-bottom: 0.3rem;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        /* Message container with thinking panel */
+        .message-container {
+            margin-bottom: 1.5rem;
+        }
+        
+        .message-thinking {
+            margin-bottom: 0.5rem;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            border: 1px solid #eaeaea;
+            width: 85%;
+            margin-left: 40px; /* Slightly more indent */
+            background-color: #f8f9fa;
+            margin-top: 0.75rem;
+        }
+        
+        .message-thinking .thinking-header {
+            padding: 6px 12px;
+            background-color: rgba(248, 249, 250, 0.9);
+            font-size: 0.85rem;
+            font-weight: 400;
+            color: #666;
+            border-bottom: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+        
+        .message-thinking .thinking-header i.fa-brain {
+            color: var(--primary-color);
+            opacity: 0.7;
+            font-size: 0.8rem;
+        }
+        
+        .message-thinking .thinking-header .thinking-title {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .message-thinking.thinking-expanded {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .message-thinking.thinking-expanded .thinking-details {
+            border-top: 1px solid #eaeaea;
+        }
+        
+        .message-thinking .thinking-content {
+            font-size: 0.85rem;
+            color: #555;
+            line-height: 1.6;
+            background-color: #ffffff;
+            padding: 16px;
+            white-space: pre-wrap;
+        }
+        
+        .message-thinking .thinking-content p {
+            margin-bottom: 0.75rem;
+        }
+        
+        .message-container .message {
+            margin-bottom: 0;
+        }
+        
+        .thinking-expand-icon {
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #f0f2f5;
+            color: #666;
+            font-size: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .thinking-expanded .thinking-expand-icon {
+            transform: rotate(90deg);
+            background: #e6f0ff;
+            color: var(--primary-color);
+        }
+        
+        /* Thought process styling */
+        .thought-analysis {
+            color: #2c5282;
+            border-left: 2px solid #4299e1;
+            padding-left: 10px;
+            background-color: rgba(235, 248, 255, 0.4);
+        }
+        
+        .thought-conclusion {
+            color: #38a169;
+            border-left: 2px solid #48bb78;
+            padding-left: 10px;
+            background-color: rgba(240, 255, 244, 0.4);
+        }
+        
+        /* Customize code blocks in thinking panel */
+        .thinking-content pre {
+            background: rgba(245, 247, 250, 0.8);
+            border: 1px solid #eaeaea;
+            border-radius: 6px;
+            padding: 12px;
+            margin: 10px 0;
+            font-size: 0.8rem;
+        }
+        
+        .thinking-content code {
+            font-family: 'Consolas', 'Monaco', monospace;
+            color: #333;
+        }
+        
+        /* Add visual indication that panel is expandable */
+        .message-thinking:hover .thinking-header {
+            background-color: rgba(245, 247, 250, 0.9);
+        }
+        
+        .message-thinking:hover .thinking-expand-icon {
+            background: #e6f0ff;
+        }
+        
+        /* Plain thinking style */
+        .plain-thinking {
+            margin-bottom: 0.5rem;
+            padding: 8px 12px;
+            color: #666;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            background-color: #f9fafb;
+            border-radius: 4px;
+            width: 85%;
+            margin-left: 58px; /* Align with AI messages */
+            white-space: pre-line;
+            font-style: italic;
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        .plain-thinking p {
+            margin-bottom: 0.5rem;
+        }
+        
+        .plain-thinking::before {
+            content: "Thinking: ";
+            font-weight: 500;
+            color: #555;
+        }
+        
+        /* Plain AI response styling */
+        .ai-response-text {
+            padding: 0.75rem 1rem;
+            margin-left: 58px; /* Align with thinking panel */
+            color: #333;
+            line-height: 1.5;
+            width: 85%;
+            margin-bottom: 1.5rem;
+            margin-top: 0.75rem;
+            position: relative;
+        }
+        
+        .ai-response-text::before {
+            content: "";
+            position: absolute;
+            left: -18px;
+            top: 10px;
+            width: 2px;
+            height: calc(100% - 20px);
+            background-color: #e0e0e0;
+        }
+        
+        .ai-response-text p {
+            margin-bottom: 0.75rem;
+        }
+        
+        .ai-response-text p:last-child {
+            margin-bottom: 0;
+        }
+        
+        /* System message styling */
+        .system-message {
+            padding: 0.75rem 1rem;
+            margin: 0.75rem auto;
+            background-color: #fff3cd;
+            border-left: 3px solid #ffc107;
+            color: #664d03;
+            width: 90%;
+            border-radius: 4px;
+        }
+        
+        /* Welcome screen styling */
+        .welcome-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            background-color: var(--light-color);
+            transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+            padding: 2rem;
+        }
+        
+        .welcome-logo {
+            margin-bottom: 2rem;
+            font-size: 3.5rem;
+            color: var(--primary-color);
+            animation: pulse 2s infinite alternate ease-in-out;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.9;
+            }
+            100% {
+                transform: scale(1.08);
+                opacity: 1;
+            }
+        }
+        
+        .welcome-greeting {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 2rem;
+            text-align: center;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .welcome-input-container {
+            width: 80%;
+            max-width: 600px;
+            transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            background: white;
+            padding: 1.5rem;
+        }
+        
+        .welcome-input-container .chat-input-container {
+            display: flex;
+            gap: 0.75rem;
+        }
+        
+        .welcome-input-container .send-btn {
+            width: 42px;
+            height: 42px;
+            flex-shrink: 0;
+            font-size: 1.1rem;
+        }
+        
+        .welcome-hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-30px);
+        }
+        
+        .content-hidden {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .content-visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        
+        .welcome-subtext {
+            text-align: center;
+            color: #666;
+            margin-top: 1.5rem;
+            font-size: 1.1rem;
+            max-width: 500px;
+            line-height: 1.6;
+        }
+        
+        .welcome-subtext small {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+        
+        /* New Chat button */
+        #newChatBtn {
+            font-size: 0.85rem;
+            padding: 0.45rem 0.85rem;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            border: 1px solid var(--primary-color);
+            background-color: transparent;
+            color: var(--primary-color);
+            font-weight: 500;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        #newChatBtn:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 3px 8px rgba(58, 123, 213, 0.2);
+        }
+        
+        #newChatBtn:active {
+            transform: translateY(0);
+            box-shadow: 0 1px 2px rgba(58, 123, 213, 0.2);
+        }
+        
+        /* Chat selection */
+        .chat-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            overflow-y: auto;
+            flex-grow: 1;
+            min-height: 150px;
+            position: relative;
+        }
+        
+        .chat-list:empty::after {
+            content: 'No chats yet';
+            color: #888;
+            font-style: italic;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            width: 100%;
+            padding: 1rem;
+        }
+        
+        .chat-list-item {
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            background: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            border-left: 3px solid transparent;
+        }
+        
+        .chat-list-item:hover {
+            background: rgba(255, 255, 255, 1);
+        }
+        
+        .chat-list-item.active {
+            background: #e8f0fe;
+            border-left-color: var(--primary-color);
+        }
+        
+        .chat-list-item-icon {
+            margin-right: 10px;
+            color: #888;
+        }
+        
+        .chat-list-item-title {
+            flex: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 0.9rem;
+        }
+        
+        /* Improved chat list styling */
+        .chat-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+        
+        .chat-list-item {
+            padding: 0.85rem 1rem;
+            border-radius: 10px;
+            margin-bottom: 0.8rem;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            border-left: 3px solid transparent;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        .chat-list-item:hover {
+            background: #f8faff;
+            transform: translateY(-2px);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+        }
+        
+        .chat-list-item.active {
+            background: #eef5ff;
+            border-left-color: var(--primary-color);
+            box-shadow: 0 2px 5px rgba(58, 123, 213, 0.15);
+        }
+        
+        .chat-list-item-icon {
+            margin-right: 12px;
+            color: var(--primary-color);
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(58, 123, 213, 0.1);
+            border-radius: 50%;
+            padding: 5px;
+        }
+        
+        .chat-list-item-title {
+            flex: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <!-- Welcome screen -->
+    <div class="welcome-screen" id="welcomeScreen">
+        <div class="welcome-logo">
+            <i class="fas fa-brain"></i>
+        </div>
+        <h1 class="welcome-greeting" id="welcomeGreeting">Welcome to NeoCortex AI</h1>
+        <div class="welcome-input-container">
+            <div class="chat-input-container">
+                <textarea id="welcomeInput" class="chat-input" placeholder="Type your question or problem here..." rows="1"></textarea>
+                <button id="welcomeSendBtn" class="send-btn">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+        <p class="welcome-subtext">An advanced cognitive system with multi-agent architecture designed to provide deep, nuanced insights and solutions to complex problems.</p>
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"><i class="fas fa-brain"></i> NeoCortex AI</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#"><i class="fas fa-comment-dots"></i> Chat</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-book"></i> Docs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-info-circle"></i> About</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="header">
+            <h1>Welcome to NeoCortex AI</h1>
+            <p>An advanced cognitive system with multi-agent architecture designed to provide deep, nuanced insights and solutions to complex problems.</p>
+        </div>
+        
+        <div class="main-content">
+            <div class="loading-bar" id="loadingBar"></div>
+            <div class="chat-container">
+                <div class="chat-sidebar">
+                    <div class="settings-panel">
+                        <div class="settings-header">
+                            <span>Your Chats</span>
+                            <button class="toggle-btn" id="toggleChats">
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                        </div>
+                        <div class="settings-content">
+                            <ul class="chat-list" id="chatList">
+                                <!-- Chat items will be dynamically added here -->
+                                <li class="chat-list-item active" data-chat-id="current">
+                                    <div class="chat-list-item-icon">
+                                        <i class="fas fa-comment"></i>
+                                    </div>
+                                    <div class="chat-list-item-title">
+                                        Current Chat
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chat-main">
+                    <div class="chat-header">
+                        <h2>NeoCortex Assistant <span class="badge badge-agent">Multi-Agent</span></h2>
+                        <div>
+                            <button id="newChatBtn" class="btn btn-sm btn-outline-primary me-2">
+                                <i class="fas fa-plus-circle me-1"></i> New Chat
+                            </button>
+                            <button id="exportChat" class="export-btn">
+                                <i class="fas fa-download"></i> Export
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="ai-response-text">
+                            <p>Hello! I'm your NeoCortex AI assistant. I can help you solve complex problems, analyze information, and provide insights. What would you like to discuss today?</p>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-form">
+                        <div class="chat-input-container">
+                            <textarea id="chatInput" class="chat-input" placeholder="Ask anything" rows="1"></textarea>
+                            <div class="input-actions">
+                                <button id="settingsBtn" class="settings-btn" title="Settings">
+                                    <i class="fas fa-cog"></i>
+                                </button>
+                                <button id="sendBtn" class="send-btn" title="Send">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Floating settings panel -->
+                        <div id="floatingSettings" class="floating-settings">
+                            <div class="floating-settings-header">
+                                <h3>Advanced Settings</h3>
+                                <button id="closeSettings" class="close-settings">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="settings-group">
+                                <div class="settings-group-title">Model</div>
+                                <div class="setting-row">
+                                    <div class="setting-label">Processing Mode</div>
+                                    <div class="setting-control">
+                                        <select class="form-select" id="floatModelSelect">
+                                            <option value="agent" selected>Multi-Agent</option>
+                                            <option value="fast">Fast Response</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="setting-row">
+                                    <div class="setting-label">Show Reasoning</div>
+                                    <div class="setting-control">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="floatShowWork" checked>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="settings-group">
+                                <div class="settings-group-title">Connection</div>
+                                <div class="setting-row">
+                                    <div class="setting-label">API Server URL</div>
+                                    <div class="setting-control">
+                                        <input type="text" class="form-control form-control-sm" id="floatServerUrl" value="http://127.0.0.1:5000">
+                                    </div>
+                                </div>
+                                <div class="setting-row">
+                                    <button id="floatTestConnection" class="btn btn-sm btn-primary w-100">Test Connection</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatMessages = document.getElementById('chatMessages');
+            const chatInput = document.getElementById('chatInput');
+            const sendBtn = document.getElementById('sendBtn');
+            const loadingBar = document.getElementById('loadingBar');
+            const toggleChats = document.getElementById('toggleChats');
+            const exportChat = document.getElementById('exportChat');
+            const newChatBtn = document.getElementById('newChatBtn');
+            const chatList = document.getElementById('chatList');
+            
+            // Welcome screen elements
+            const welcomeScreen = document.getElementById('welcomeScreen');
+            const welcomeGreeting = document.getElementById('welcomeGreeting');
+            const welcomeInput = document.getElementById('welcomeInput');
+            const welcomeSendBtn = document.getElementById('welcomeSendBtn');
+            
+            // Floating settings elements
+            const settingsBtn = document.getElementById('settingsBtn');
+            const floatingSettings = document.getElementById('floatingSettings');
+            const closeSettings = document.getElementById('closeSettings');
+            const modelSelect = document.getElementById('floatModelSelect');
+            const showWork = document.getElementById('floatShowWork');
+            const serverUrl = document.getElementById('floatServerUrl');
+            const testConnection = document.getElementById('floatTestConnection');
+            
+            // Settings panel toggle
+            settingsBtn.addEventListener('click', function(e) {
+                // Stop event propagation to prevent document click handler from firing
+                e.stopPropagation();
+                floatingSettings.classList.add('visible');
+            });
+            
+            closeSettings.addEventListener('click', function(e) {
+                // Stop event propagation
+                e.stopPropagation();
+                floatingSettings.classList.remove('visible');
+            });
+            
+            // Prevent clicks inside the panel from closing it
+            floatingSettings.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+            
+            // Click outside to close settings
+            document.addEventListener('click', function(e) {
+                if (floatingSettings.classList.contains('visible') && 
+                    !floatingSettings.contains(e.target) && 
+                    e.target !== settingsBtn) {
+                    floatingSettings.classList.remove('visible');
+                }
+            });
+            
+            // Set up listener for Show Reasoning checkbox
+            showWork.addEventListener('change', function() {
+                console.log('Show reasoning set to:', this.checked);
+                // Could store this in localStorage for persistence
+                // localStorage.setItem('showReasoning', this.checked);
+            });
+            
+            // Handle Test Connection on the settings menu item
+            testConnection.addEventListener('click', function() {
+                this.disabled = true;
+                this.innerHTML = 'Testing...';
+                
+                // Show loading bar
+                loadingBar.style.display = 'block';
+                
+                fetch(`${serverUrl.value}/api/agents/status`, {
+                    headers: {
+                        'X-API-Key': apiKey
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.text().then(text => {
+                            throw new Error(`Status ${response.status}: ${text}`);
+                        });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Hide loading bar
+                    loadingBar.style.display = 'none';
+                    
+                    // Show success message
+                    addMessage('ai', 'API connection successful! The server is running properly.');
+                    console.log('API Status:', data);
+                    
+                    this.innerHTML = 'Test API Connection';
+                    this.disabled = false;
+                    
+                    // Close settings panel
+                    floatingSettings.classList.remove('visible');
+                })
+                .catch(error => {
+                    // Hide loading bar
+                    loadingBar.style.display = 'none';
+                    
+                    console.error('Connection test error:', error);
+                    
+                    // Show detailed error
+                    addMessage('ai', `API connection failed: ${error.message}\n\nPlease check:\n1. Is the Flask server running?\n2. Is it running on port 5000?\n3. Do you have CORS issues? (check browser console)\n4. Is the API key correct?`);
+                    
+                    this.innerHTML = 'Test API Connection';
+                    this.disabled = false;
+                });
+            });
+            
+            // Set appropriate greeting based on time of day
+            function setGreeting() {
+                const hour = new Date().getHours();
+                let timeGreeting = "";
+                
+                if (hour >= 5 && hour < 12) {
+                    timeGreeting = "Good morning";
+                } else if (hour >= 12 && hour < 17) {
+                    timeGreeting = "Good afternoon";
+                } else if (hour >= 17 && hour < 22) {
+                    timeGreeting = "Good evening";
+                } else {
+                    timeGreeting = "Good night";
+                }
+                
+                // Add the time greeting subtly to the welcome text
+                const welcomeSubtext = document.querySelector('.welcome-subtext');
+                welcomeSubtext.innerHTML = `<small>${timeGreeting}.</small><br>An advanced cognitive system with multi-agent architecture designed to provide deep, nuanced insights and solutions to complex problems.`;
+            }
+            
+            // Run once on page load
+            setGreeting();
+            
+            // Make main content initially hidden
+            document.querySelector('.container').classList.add('content-hidden');
+            
+            // Auto resize textarea for welcome input
+            welcomeInput.addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = (this.scrollHeight) + 'px';
+            });
+            
+            // Send message from welcome screen
+            welcomeSendBtn.addEventListener('click', function() {
+                const message = welcomeInput.value.trim();
+                if (!message) return;
+                
+                // Copy message to main input
+                chatInput.value = message;
+                
+                // Animate transition
+                welcomeScreen.classList.add('welcome-hidden');
+                document.querySelector('.container').classList.add('content-visible');
+                
+                // Add delay before sending to allow animation to complete
+                setTimeout(() => {
+                    // Ensure proper scroll position for main content
+                    window.scrollTo(0, 0);
+                    
+                    // Focus on main interface
+                    document.querySelector('.main-content').focus();
+                    
+                    // Send the message
+                    sendMessage();
+                }, 500);
+            });
+            
+            // Enter key for welcome input
+            welcomeInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    welcomeSendBtn.click();
+                }
+            });
+            
+            // API key for authentication
+            const apiKey = "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";
+            
+            // Global variable to store reasoning data
+            window.lastReasoningData = null;
+            
+            // Chat history
+            let chatHistory = [];
+            
+            // Auto resize textarea
+            chatInput.addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = (this.scrollHeight) + 'px';
+            });
+            
+            // Send message when pressing Enter (without Shift)
+            chatInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
+            
+            // Send button click
+            sendBtn.addEventListener('click', sendMessage);
+            
+            // Toggle settings and history panels
+            toggleHistory.addEventListener('click', function() {
+                const icon = this.querySelector('i');
+                const parent = this.closest('.settings-panel');
+                const content = parent.querySelector('.settings-content');
+                
+                if (icon.classList.contains('fa-chevron-down')) {
+                    icon.classList.replace('fa-chevron-down', 'fa-chevron-up');
+                    content.style.display = 'none';
+                } else {
+                    icon.classList.replace('fa-chevron-up', 'fa-chevron-down');
+                    content.style.display = 'block';
+                }
+            });
+            
+            toggleChats.addEventListener('click', function() {
+                const icon = this.querySelector('i');
+                const parent = this.closest('.settings-panel');
+                const content = parent.querySelector('.settings-content');
+                
+                if (icon.classList.contains('fa-chevron-down')) {
+                    icon.classList.replace('fa-chevron-down', 'fa-chevron-up');
+                    content.style.display = 'none';
+                } else {
+                    icon.classList.replace('fa-chevron-up', 'fa-chevron-down');
+                    content.style.display = 'block';
+                }
+            });
+            
+            // Export chat history
+            exportChat.addEventListener('click', function() {
+                const chatText = chatHistory.map(msg => {
+                    return `${msg.sender === 'user' ? 'You' : 'NeoCortex'}: ${msg.text}`;
+                }).join('\n\n');
+                
+                const blob = new Blob([chatText], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                
+                a.href = url;
+                a.download = 'neocortex-chat.txt';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            });
+            
+            // Chat ID counter for new chats
+            let chatIdCounter = 1;
+            
+            // Track all chats
+            const allChats = {
+                current: {
+                    title: "Current Chat",
+                    messages: chatHistory.slice(),
+                    activeMessage: null
+                }
+            };
+            
+            // Create a new chat
+            newChatBtn.addEventListener('click', function() {
+                // Save current chat if it has messages
+                if (chatHistory.length > 1) { // More than just the welcome message
+                    saveCurrentChat();
+                }
+                
+                // Clear the chat
+                startNewChat();
+            });
+            
+            function saveCurrentChat() {
+                // Get the current active chat ID
+                const currentChatId = document.querySelector('.chat-list-item.active').dataset.chatId;
+                
+                // Determine a title based on first user message
+                let chatTitle = "New Conversation";
+                for (const msg of chatHistory) {
+                    if (msg.sender === 'user') {
+                        chatTitle = msg.text.substring(0, 30);
+                        if (msg.text.length > 30) chatTitle += '...';
+                        break;
+                    }
+                }
+                
+                // Store the current chat
+                allChats[currentChatId] = {
+                    title: chatTitle,
+                    messages: chatHistory.slice(),
+                    activeMessage: null
+                };
+            }
+            
+            function startNewChat() {
+                // Clear chat history array
+                chatHistory = [];
+                
+                // Clear chat messages display
+                chatMessages.innerHTML = '';
+                
+                // Add welcome message
+                const welcomeDiv = document.createElement('div');
+                welcomeDiv.className = 'ai-response-text';
+                welcomeDiv.innerHTML = '<p>Hello! I\'m your NeoCortex AI assistant. I can help you solve complex problems, analyze information, and provide insights. What would you like to discuss today?</p>';
+                chatMessages.appendChild(welcomeDiv);
+                
+                // Add welcome message to history
+                chatHistory.push({
+                    sender: 'ai',
+                    text: 'Hello! I\'m your NeoCortex AI assistant. I can help you solve complex problems, analyze information, and provide insights. What would you like to discuss today?',
+                    time: new Date()
+                });
+                
+                // Create a new chat ID
+                const newChatId = 'chat_' + chatIdCounter++;
+                
+                // Create new chat item in sidebar
+                const newChatItem = document.createElement('li');
+                newChatItem.className = 'chat-list-item';
+                newChatItem.dataset.chatId = newChatId;
+                newChatItem.innerHTML = `
+                    <div class="chat-list-item-icon">
+                        <i class="fas fa-comment"></i>
+                    </div>
+                    <div class="chat-list-item-title">
+                        New Chat
+                    </div>
+                `;
+                
+                // Set up chat switching
+                newChatItem.addEventListener('click', function() {
+                    switchToChat(newChatId);
+                });
+                
+                // Add to chat list and make active
+                chatList.prepend(newChatItem);
+                switchToChat(newChatId);
+                
+                // Clear the input
+                chatInput.value = '';
+                chatInput.focus();
+            }
+            
+            function switchToChat(chatId) {
+                // Save current chat
+                saveCurrentChat();
+                
+                // Update active chat in UI
+                document.querySelectorAll('.chat-list-item').forEach(item => {
+                    item.classList.remove('active');
+                    if (item.dataset.chatId === chatId) {
+                        item.classList.add('active');
+                    }
+                });
+                
+                // Initialize the chat if it doesn't exist
+                if (!allChats[chatId]) {
+                    allChats[chatId] = {
+                        title: "New Chat",
+                        messages: [],
+                        activeMessage: null
+                    };
+                    
+                    // Add welcome message if empty
+                    if (allChats[chatId].messages.length === 0) {
+                        allChats[chatId].messages.push({
+                            sender: 'ai',
+                            text: 'Hello! I\'m your NeoCortex AI assistant. I can help you solve complex problems, analyze information, and provide insights. What would you like to discuss today?',
+                            time: new Date()
+                        });
+                    }
+                }
+                
+                // Load chat messages
+                chatHistory = allChats[chatId].messages.slice();
+                
+                // Clear and rebuild messages UI
+                chatMessages.innerHTML = '';
+                
+                // Add all messages from this chat to the UI
+                chatHistory.forEach(msg => {
+                    if (msg.sender === 'ai') {
+                        // Create AI message
+                        const messageDiv = document.createElement('div');
+                        messageDiv.className = 'ai-response-text';
+                        messageDiv.innerHTML = marked.parse(msg.text);
+                        chatMessages.appendChild(messageDiv);
+                    } else if (msg.sender === 'user') {
+                        // Create user message
+                        const messageDiv = document.createElement('div');
+                        messageDiv.className = `message ${msg.sender}-message`;
+                        
+                        const avatar = document.createElement('div');
+                        avatar.className = `message-avatar ${msg.sender}-avatar`;
+                        
+                        const icon = document.createElement('i');
+                        icon.className = 'fas fa-user';
+                        avatar.appendChild(icon);
+                        
+                        const content = document.createElement('div');
+                        content.className = 'message-content';
+                        
+                        const paragraph = document.createElement('div');
+                        paragraph.className = 'message-text markdown-content';
+                        paragraph.innerHTML = marked.parse(msg.text);
+                        
+                        const time = document.createElement('div');
+                        time.className = 'message-time';
+                        time.textContent = new Date(msg.time).toLocaleTimeString();
+                        
+                        content.appendChild(paragraph);
+                        content.appendChild(time);
+                        
+                        messageDiv.appendChild(avatar);
+                        messageDiv.appendChild(content);
+                        
+                        chatMessages.appendChild(messageDiv);
+                    }
+                });
+                
+                // Scroll to bottom
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+            
+            function sendMessage() {
+                const message = chatInput.value.trim();
+                if (!message) return;
+                
+                // Add user message to chat
+                addMessage('user', message);
+                
+                // Clear input
+                chatInput.value = '';
+                chatInput.style.height = 'auto';
+                
+                // Start a timer for the reasoning time
+                const startTime = new Date();
+                let elapsedSeconds = 0;
+                let reasoningTimer;
+                let reasoningPanel;
+                
+                // Only create reasoning panel if show work is enabled
+                if (showWork.checked) {
+                    reasoningTimer = setInterval(() => {
+                        elapsedSeconds = ((new Date() - startTime) / 1000).toFixed(1);
+                        const timerElement = document.getElementById('reasoning-timer');
+                        if (timerElement) {
+                            timerElement.textContent = `${elapsedSeconds}s`;
+                            // Force a reflow to ensure the UI updates
+                            timerElement.style.fontWeight = elapsedSeconds % 2 === 0 ? '500' : '600';
+                        }
+                    }, 100);
+                    
+                    // Show reasoning panel immediately with "thinking" state and make it expandable
+                    reasoningPanel = document.createElement('div');
+                    reasoningPanel.className = 'reasoning-panel message-thinking';
+                    reasoningPanel.id = 'current-reasoning';
+                    
+                    const thinkingHeader = document.createElement('div');
+                    thinkingHeader.className = 'thinking-header';
+                    
+                    const titleDiv = document.createElement('div');
+                    titleDiv.className = 'thinking-title';
+                    const modeText = modelSelect.value === 'agent' ? 'Multi-Agent' : 'Fast Response';
+                    titleDiv.innerHTML = `<i class="fas fa-brain me-2"></i> <span class="badge ${modelSelect.value === 'agent' ? 'badge-agent' : 'badge-fast'} me-2">${modeText}</span> Reasoning for <span id="reasoning-timer" style="font-weight:bold;color:#3a7bd5;">0.0s</span>`;
+                    
+                    const expandIcon = document.createElement('div');
+                    expandIcon.className = 'thinking-expand-icon';
+                    expandIcon.innerHTML = '<i class="fas fa-chevron-right"></i>';
+                    
+                    thinkingHeader.appendChild(titleDiv);
+                    thinkingHeader.appendChild(expandIcon);
+                    
+                    // Create details section immediately with placeholder content
+                    const thinkingDetails = document.createElement('div');
+                    thinkingDetails.className = 'thinking-details';
+                    thinkingDetails.style.maxHeight = '0'; // Start collapsed
+                    
+                    const thinkingContent = document.createElement('div');
+                    thinkingContent.className = 'markdown-content thinking-content';
+                    thinkingContent.innerHTML = '<p>Generating reasoning...</p>';
+                    
+                    thinkingDetails.appendChild(thinkingContent);
+                    reasoningPanel.appendChild(thinkingHeader);
+                    reasoningPanel.appendChild(thinkingDetails);
+                    
+                    // Add event listener for expand/collapse immediately
+                    thinkingHeader.addEventListener('click', function() {
+                        if (reasoningPanel.classList.contains('thinking-expanded')) {
+                            // Collapse
+                            reasoningPanel.classList.remove('thinking-expanded');
+                            thinkingDetails.style.maxHeight = '0';
+                        } else {
+                            // Expand
+                            reasoningPanel.classList.add('thinking-expanded');
+                            thinkingDetails.style.maxHeight = '500px';
+                        }
+                    });
+                    
+                    chatMessages.appendChild(reasoningPanel);
+                }
+                
+                // Show loading bar
+                loadingBar.style.display = 'block';
+                
+                // Prepare the request based on the selected model
+                const endpoint = modelSelect.value === 'fast' ? '/api/fast-response' : '/api/solve';
+                
+                // Send to API
+                fetch(`${serverUrl.value}${endpoint}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-API-Key': apiKey
+                    },
+                    body: JSON.stringify({
+                        query: message,
+                        show_work: showWork.checked,
+                        use_agents: modelSelect.value === 'agent'
+                    })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.text().then(text => {
+                            console.error('API Error:', response.status, text);
+                            throw new Error(`API error (${response.status}): ${text}`);
+                        });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Stop the timer and clear the interval if it exists
+                    if (reasoningTimer) {
+                        clearInterval(reasoningTimer);
+                    }
+                    
+                    // Hide loading bar
+                    loadingBar.style.display = 'none';
+                    
+                    // Get the final reasoning time
+                    const finalTime = ((new Date() - startTime) / 1000).toFixed(1);
+                    
+                    // Add processing time to the data object for history retrieval
+                    if (!data.processing_time) {
+                        data.processing_time = parseFloat(finalTime);
+                    }
+                    
+                    // Add the processing mode to the data object for history retrieval
+                    data.use_agents = modelSelect.value === 'agent';
+                    
+                    // Update the reasoning panel with real data if it exists and Show Reasoning is enabled
+                    if (showWork.checked) {
+                        const currentReasoningPanel = document.getElementById('current-reasoning');
+                        if (currentReasoningPanel) {
+                            // Update reasoning time to final value
+                            const timerElement = document.getElementById('reasoning-timer');
+                            if (timerElement) {
+                                timerElement.textContent = `${finalTime}s`;
+                            }
+                            
+                            // Update the content if data available
+                            if (data.reasoning_process) {
+                                const thinkingContent = currentReasoningPanel.querySelector('.thinking-content');
+                                if (thinkingContent) {
+                                    // Process and format the reasoning data
+                                    let reasoningText = formatReasoningText(data);
+                                    // Format the thought process
+                                    thinkingContent.innerHTML = reasoningText ? formatThoughtProcess(reasoningText) : '<p>No detailed reasoning available.</p>';
+                                }
+                            }
+                        }
+                    }
+                    
+                    // Add AI response to chat
+                    let aiResponse = data.final_answer;
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = 'ai-response-text';
+                    messageDiv.innerHTML = marked.parse(aiResponse);
+                    chatMessages.appendChild(messageDiv);
+                })
+                .catch(error => {
+                    // Stop the timer and clear the interval if it exists
+                    if (reasoningTimer) {
+                        clearInterval(reasoningTimer);
+                    }
+                    
+                    // Hide loading bar
+                    loadingBar.style.display = 'none';
+                    
+                    // Remove the reasoning panel if it exists
+                    if (showWork.checked) {
+                        const currentReasoningPanel = document.getElementById('current-reasoning');
+                        if (currentReasoningPanel) {
+                            chatMessages.removeChild(currentReasoningPanel);
+                        }
+                    }
+                    
+                    console.error('Request error:', error);
+                    
+                    // Show error
+                    addMessage('ai', `I'm sorry, there was an error processing your request: ${error.message}`);
+                });
+            }
+            
+            function addMessage(sender, text) {
+                // If this is an AI message
+                if (sender === 'ai' && text !== 'Warning: Could not connect to the NeoCortex API. Please make sure the server is running.') {
+                    // First add the thinking panel as a separate entry if Show Reasoning is enabled
+                    if (window.lastReasoningData && showWork.checked) {
+                        const thinkingPanel = createThinkingPanel(window.lastReasoningData);
+                        chatMessages.appendChild(thinkingPanel);
+                        window.lastReasoningData = null; // Clear after using
+                    }
+                    
+                    // Then add the AI message separately
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = 'ai-response-text';
+                    
+                    // Use marked.js to render markdown
+                    messageDiv.innerHTML = marked.parse(text);
+                    
+                    chatMessages.appendChild(messageDiv);
+                } else if (sender === 'user') {
+                    // Create the user message with bubble styling
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = `message ${sender}-message`;
+                    
+                    const avatar = document.createElement('div');
+                    avatar.className = `message-avatar ${sender}-avatar`;
+                    
+                    const icon = document.createElement('i');
+                    icon.className = 'fas fa-user';
+                    avatar.appendChild(icon);
+                    
+                    const content = document.createElement('div');
+                    content.className = 'message-content';
+                    
+                    const paragraph = document.createElement('div');
+                    paragraph.className = 'message-text markdown-content';
+                    paragraph.innerHTML = marked.parse(text);
+                    
+                    const time = document.createElement('div');
+                    time.className = 'message-time';
+                    time.textContent = new Date().toLocaleTimeString();
+                    
+                    content.appendChild(paragraph);
+                    content.appendChild(time);
+                    
+                    messageDiv.appendChild(avatar);
+                    messageDiv.appendChild(content);
+                    
+                    chatMessages.appendChild(messageDiv);
+                } else {
+                    // For system messages and errors
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = 'system-message';
+                    messageDiv.innerHTML = marked.parse(text);
+                    chatMessages.appendChild(messageDiv);
+                }
+                
+                // Save to history
+                chatHistory.push({
+                    sender: sender,
+                    text: text,
+                    time: new Date()
+                });
+                
+                // Scroll to bottom
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+            
+            function createThinkingPanel(reasoningData) {
+                const reasoningPanel = document.createElement('div');
+                reasoningPanel.className = 'reasoning-panel message-thinking';
+                
+                // Create header with minimal info
+                const thinkingHeader = document.createElement('div');
+                thinkingHeader.className = 'thinking-header';
+                
+                // Calculate reasoning time - check if it exists in data, otherwise use a reasonable default
+                let reasoningTime = '1.5';
+                if (reasoningData.processing_time) {
+                    reasoningTime = reasoningData.processing_time.toFixed(1);
+                } else if (reasoningData.meta && reasoningData.meta.processing_time) {
+                    reasoningTime = reasoningData.meta.processing_time.toFixed(1);
+                }
+                
+                // Determine the mode used - check if it's stored or default to agent
+                const isAgentMode = reasoningData.use_agents !== false; // Default to true unless explicitly set to false
+                const modeText = isAgentMode ? 'Multi-Agent' : 'Fast Response';
+                const modeClass = isAgentMode ? 'badge-agent' : 'badge-fast';
+                
+                const titleDiv = document.createElement('div');
+                titleDiv.className = 'thinking-title';
+                titleDiv.innerHTML = `<i class="fas fa-brain me-2"></i> <span class="badge ${modeClass} me-2">${modeText}</span> Reasoned for <span style="font-weight:bold;color:#3a7bd5;">${reasoningTime}s</span>`;
+                
+                const expandIcon = document.createElement('div');
+                expandIcon.className = 'thinking-expand-icon';
+                expandIcon.innerHTML = '<i class="fas fa-chevron-right"></i>';
+                
+                thinkingHeader.appendChild(titleDiv);
+                thinkingHeader.appendChild(expandIcon);
+                
+                // Create hidden details section
+                const thinkingDetails = document.createElement('div');
+                thinkingDetails.className = 'thinking-details';
+                thinkingDetails.style.maxHeight = '0'; // Start collapsed
+                
+                const thinkingContent = document.createElement('div');
+                thinkingContent.className = 'markdown-content thinking-content';
+                
+                // Process and format the reasoning data
+                let reasoningText = formatReasoningText(reasoningData);
+                
+                // Format the thought process
+                thinkingContent.innerHTML = reasoningText ? formatThoughtProcess(reasoningText) : '<p>No detailed reasoning available.</p>';
+                
+                thinkingDetails.appendChild(thinkingContent);
+                reasoningPanel.appendChild(thinkingHeader);
+                reasoningPanel.appendChild(thinkingDetails);
+                
+                // Add event listener for expand/collapse
+                thinkingHeader.addEventListener('click', function() {
+                    if (reasoningPanel.classList.contains('thinking-expanded')) {
+                        // Collapse
+                        reasoningPanel.classList.remove('thinking-expanded');
+                        thinkingDetails.style.maxHeight = '0';
+                    } else {
+                        // Expand
+                        reasoningPanel.classList.add('thinking-expanded');
+                        thinkingDetails.style.maxHeight = '500px';
+                    }
+                });
+                
+                return reasoningPanel;
+            }
+            
+            // New function to format the thought process text
+            function formatThoughtProcess(text) {
+                // Split into paragraphs
+                const paragraphs = text.split('\n\n').filter(p => p.trim() !== '');
+                
+                // Format each paragraph with minimal styling
+                const formattedParagraphs = paragraphs.map(p => {
+                    return `<p>${marked.parse(p)}</p>`;
+                });
+                
+                return formattedParagraphs.join('');
+            }
+            
+            function formatReasoningText(data) {
+                if (!data.reasoning_process) {
+                    return null;
+                }
+                
+                let reasoningText = '';
+                const process = data.reasoning_process;
+                
+                // Format all reasoning as a thought stream
+                if (process.decomposition && process.decomposition.full_decomposition) {
+                    reasoningText += process.decomposition.full_decomposition + '\n\n';
+                }
+                
+                // Add perspectives if available
+                if (process.perspectives && process.perspectives.length > 0) {
+                    process.perspectives.forEach((perspective, index) => {
+                        const content = perspective.summary || perspective.description || '';
+                        if (content) {
+                            reasoningText += content + '\n\n';
+                        }
+                    });
+                }
+                
+                // Add evidence/research
+                if (process.evidence && Object.keys(process.evidence).length > 0) {
+                    for (const [key, value] of Object.entries(process.evidence)) {
+                        if (value.summary) {
+                            reasoningText += value.summary + '\n\n';
+                        }
+                    }
+                }
+                
+                // Add integration/synthesis
+                if (process.integration && process.integration.full_integration) {
+                    reasoningText += process.integration.full_integration + '\n\n';
+                }
+                
+                // Add solution/conclusion
+                if (process.solution && process.solution.full_solution) {
+                    reasoningText += process.solution.full_solution + '\n\n';
+                }
+                
+                // Add verification
+                if (process.verification && process.verification.full_verification) {
+                    reasoningText += process.verification.full_verification + '\n\n';
+                }
+                
+                // Add metacognitive reflection
+                if (process.reflection) {
+                    reasoningText += process.reflection;
+                }
+                
+                return reasoningText;
+            }
+            
+            function updateReasoningPanel(data) {
+                // Store the reasoning data for the next AI message
+                window.lastReasoningData = data;
+            }
+            
+            // Check if the API is available on load
+            fetch(`${serverUrl.value}/api/agents/status`, {
+                headers: {
+                    'X-API-Key': apiKey
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('API Status:', data);
+            })
+            .catch(error => {
+                console.error('API Error:', error);
+                addMessage('ai', 'Warning: Could not connect to the NeoCortex API. Please make sure the server is running.');
+            });
+            
+            // Initialize chat switching for the default chat
+            document.querySelector('.chat-list-item[data-chat-id="current"]').addEventListener('click', function() {
+                switchToChat('current');
+            });
+        });
+    </script>
+</body>
+</html> 
